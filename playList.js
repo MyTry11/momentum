@@ -1,12 +1,15 @@
 const playList = [
     {      
       title: 'Aqua Caelestis',
+      // src: 'C:/Coding/Momentum/momentum/assets/sounds/Aqua Caelestis.mp3',
       src: '../assets/sounds/Aqua Caelestis.mp3',
+      // assets\sounds\Aqua Caelestis.mp3
       duration: '00:58'
     },  
     {      
       title: 'Ennio Morricone',
       src: '../assets/sounds/Ennio Morricone.mp3',
+      // assets\sounds\Ennio Morricone.mp3
       duration: '03:50'
     },
     {      
