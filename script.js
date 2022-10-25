@@ -66,7 +66,6 @@ function getTimeOfDay() {
 
 window.addEventListener('onload', getTimeOfDay)
 
-
 function setLocalStorage() {
     localStorage.setItem('name', name.value);
   }
@@ -117,8 +116,8 @@ prevSlideBtn.addEventListener('click', getSlidePrev)
 
 async function getWeather() {  
   const currentCity  = localStorage.getItem('city')
-  // const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&lang=en&appid=b9089f3ea29f299a5caa5645f6fa7d7d&units=metric`;
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&units=metric&appid=b9089f3ea29f299a5caa5645f6fa7d7d`
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&lang=${language}&appid=b9089f3ea29f299a5caa5645f6fa7d7d&units=metric`;
+  // const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&units=metric&appid=b9089f3ea29f299a5caa5645f6fa7d7d`
   const res = await fetch(url);
   const data = await res.json(); 
   
@@ -126,8 +125,14 @@ async function getWeather() {
   weatherIcon.classList.add(`owf-${data.weather[0].id}`);
   temperature.textContent = `${Math.floor(data.main.temp)}°C`;
   weatherDescription.textContent = data.weather[0].description;
-  wind.textContent = `Wind speed: ${Math.floor(data.wind.speed)} m/s`;
-  humidity.textContent = `Humidity: ${data.main.humidity}%`
+  if(language === 'en') {
+    wind.textContent = `Wind speed: ${Math.floor(data.wind.speed)} m/s`;
+    humidity.textContent = `Humidity: ${data.main.humidity}%`
+  } else {
+    wind.textContent = `Скорость ветра: ${Math.floor(data.wind.speed)} m/s`;
+    humidity.textContent = `Влажность: ${data.main.humidity}%`
+  }
+  
 
   
 }
@@ -157,6 +162,7 @@ changeLanguageBtn.addEventListener('click', () => {
   language === 'en' ? language = 'ru' : language = 'en';
   getQuotes()
   language === 'en' ? changeLanguageBtn.textContent = 'En' : changeLanguageBtn.textContent = 'Ru'
+  getWeather()
   
   
 })
@@ -191,13 +197,11 @@ let playNum = 0;
 
 function playAudio() {
   audio.src = playList[playNum].src;
-  console.log(audio.src);
   if(!isPlay) {
     audio.play();
     isPlay = true;
     playBtn.classList.add('pause')
     playBtn.classList.remove('play')
-    console.log(playNum);
   } else if(isPlay) {
     audio.pause()
     isPlay = false;
@@ -246,9 +250,3 @@ function prevSong() {
   }
 }
 playPrev.addEventListener('click', prevSong)
-
-
-function changeLanguage() {
-  
-}
-
