@@ -28,13 +28,14 @@ function showTime() {
     setTimeout(showTime, 1000)
     showDate()
     getTimeOfDay()
+    // console.log('hui');
 }
 
 showTime();
 
 function showDate() {
     const newDate = new Date;
-    const options = {month: 'long', day: 'numeric', weekday: 'long', timeZone: 'UTC'};
+    const options = {month: 'long', day: 'numeric', weekday: 'long', timeZone: 'Europe/Moscow'};
     let currentDate = '';
     language === 'en' ? 
       currentDate = newDate.toLocaleDateString('en-US', options) :
@@ -56,8 +57,8 @@ function getTimeOfDay() {
 
   else if(hours >=6 && hours <= 11 && language === 'ru') {timeOfDay = 'утро'}
   else if (hours >= 12 && hours <= 17 && language === 'ru') { timeOfDay = 'день'}
-  else if (hours >= 18 && hours <= 23 && language === 'en') { timeOfDay = 'вечер'}
-  else if (hours >= 0 && hours <= 5 && language === 'en') { timeOfDay = 'ночи'}
+  else if (hours >= 18 && hours <= 23 && language === 'ru') { timeOfDay = 'вечер'}
+  else if (hours >= 0 && hours <= 5 && language === 'ru') { timeOfDay = 'ночи'}
 
   language === 'en' ? greeting.textContent = `Good ${timeOfDay}` : greeting.textContent = `Добрый ${timeOfDay}`
   language === 'en' ? name.placeholder = '[Enter your name]' : name.placeholder = '[Введите ваше имя]'
@@ -87,7 +88,14 @@ let bgNum = getRandomNum();
 function setBg() {
   let timeOfDay = getTimeOfDay();
   let url = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg')`
-  body.style.backgroundImage = url;
+  let img = new Image();
+  console.log(img.src);
+  img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`
+  console.log(img.src);
+  img.onload = () => {     
+    body.style.backgroundImage = url;
+  };
+  
 
 }
 window.addEventListener('load', setBg)
