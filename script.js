@@ -1,6 +1,5 @@
 import playList from './playList.js';
 
-
 const time = document.querySelector('.time')
 const date = document.querySelector('.date')
 const greeting = document.querySelector('.greeting')
@@ -20,7 +19,6 @@ const author = document.querySelector('.author')
 const changeLanguageBtn = document.querySelector('.language_btn')
 let language = 'en';
 
-
 function showTime() {
     const date = new Date;
     const currentTime = date.toLocaleTimeString('en-US', {hour12: false});
@@ -28,7 +26,6 @@ function showTime() {
     setTimeout(showTime, 1000)
     showDate()
     getTimeOfDay()
-    // console.log('hui');
 }
 
 showTime();
@@ -43,25 +40,31 @@ function showDate() {
     date.textContent = currentDate;
 }
 showDate();
-// 
-
-
 function getTimeOfDay() {
   let timeOfDay = '';
+  let timeOfDayRu = '';
   const date = new Date;
   const hours = date.getHours()
-  if(hours >=6 && hours <= 11 && language === 'en') {timeOfDay = 'morning'}
-  else if (hours >= 12 && hours <= 17 && language === 'en') { timeOfDay = 'afternoon'}
-  else if (hours >= 18 && hours <= 23 && language === 'en') { timeOfDay = 'evening'}
-  else if (hours >= 0 && hours <= 5 && language === 'en') { timeOfDay = 'night'}
+  if(hours >=6 && hours <= 11) {
+    timeOfDay = 'morning' 
+    language === 'en' ? timeOfDayRu = '': timeOfDayRu = 'утро'
+  }
+  else if (hours >= 12 && hours <= 17) { 
+    timeOfDay = 'afternoon'
+    language === 'en' ? timeOfDayRu = '': timeOfDayRu = 'день'
+  }
+  else if (hours >= 18 && hours <= 23) { 
+    timeOfDay = 'evening'
+    language === 'en' ? timeOfDayRu = '': timeOfDayRu = 'вечер'
+  }
+  else if (hours >= 0 && hours <= 5) { 
+    timeOfDay = 'night'
+    language === 'en' ? timeOfDayRu = '': timeOfDayRu = 'ночи'
+  }
 
-  else if(hours >=6 && hours <= 11 && language === 'ru') {timeOfDay = 'утро'}
-  else if (hours >= 12 && hours <= 17 && language === 'ru') { timeOfDay = 'день'}
-  else if (hours >= 18 && hours <= 23 && language === 'ru') { timeOfDay = 'вечер'}
-  else if (hours >= 0 && hours <= 5 && language === 'ru') { timeOfDay = 'ночи'}
-
-  language === 'en' ? greeting.textContent = `Good ${timeOfDay}` : greeting.textContent = `Добрый ${timeOfDay}`
+  language === 'en' ? greeting.textContent = `Good ${timeOfDay}` : greeting.textContent = `Добрый ${timeOfDayRu}`
   language === 'en' ? name.placeholder = '[Enter your name]' : name.placeholder = '[Введите ваше имя]'
+
   return timeOfDay
 }
 
@@ -78,25 +81,21 @@ function getLocalStorage() {
   }
 }
 window.addEventListener('load', getLocalStorage)
-// 
 function getRandomNum() {
+
   let num = Math.floor(Math.random() * (20-1) + 1)
   return num > 9 ? num : `0${num}`
 }
 let bgNum = getRandomNum();
-
 function setBg() {
+
   let timeOfDay = getTimeOfDay();
   let url = `url('https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg')`
   let img = new Image();
-  console.log(img.src);
   img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDay}/${bgNum}.jpg`
-  console.log(img.src);
   img.onload = () => {     
     body.style.backgroundImage = url;
   };
-  
-
 }
 window.addEventListener('load', setBg)
 
@@ -120,13 +119,12 @@ function getSlidePrev() {
 }
 nextSlideBtn.addEventListener('click', getSlideNext)
 prevSlideBtn.addEventListener('click', getSlidePrev)
-// 
 
 async function getWeather() {  
   const currentCity  = localStorage.getItem('city')
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&lang=${language}&appid=b9089f3ea29f299a5caa5645f6fa7d7d&units=metric`;
-  // const url = `https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&units=metric&appid=b9089f3ea29f299a5caa5645f6fa7d7d`
   const res = await fetch(url);
+
   const data = await res.json(); 
   
   weatherIcon.className = 'weather-icon owf';
@@ -140,9 +138,6 @@ async function getWeather() {
     wind.textContent = `Скорость ветра: ${Math.floor(data.wind.speed)} m/s`;
     humidity.textContent = `Влажность: ${data.main.humidity}%`
   }
-  
-
-  
 }
 getWeather()
 
@@ -164,7 +159,6 @@ window.addEventListener('load', getLocalStorage1)
 window.addEventListener('keypress', (event) => event.code === 'Enter' ? getLocalStorage1() : void(0))
 city.addEventListener('focusout', getLocalStorage1)
 
-// 
 
 changeLanguageBtn.addEventListener('click', () => {
   language === 'en' ? language = 'ru' : language = 'en';
@@ -192,7 +186,6 @@ async function getQuotes() {
 window.addEventListener('load', getQuotes)
 changeQuoteBtn.addEventListener('click', getQuotes)
 
-// 
 
 const playBtn = document.querySelector('.play');
 const playPrev = document.querySelector('.play-prev')
